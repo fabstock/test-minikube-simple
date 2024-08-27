@@ -1,3 +1,4 @@
+:
 # test-minikube-simple
 man on work
 
@@ -20,7 +21,20 @@ kubectl -n kube-system create secret tls mkcert --key key.pem --cert cert.pem
   - minikube start  
   - minikube ip
   - minikube tunnel 
+  -
+  - minikube addons enable ingress (ingress-controller)
+   ```
+   
+* ingress is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image registry.k8s.io/ingress-nginx/controller:v1.10.1
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
+  - Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.1
+* Verifying ingress addon...
+* The 'ingress' addon is enabled
 
+   ``` 
+  -
   - simple test configmap  kubectl create configmap web-index --from-file=index.htm
   - 
   - minikube mount /data/web-storage:/data/webstorage  
@@ -185,3 +199,12 @@ fab@debian12:~/fab-yaml/simple-5$ minikube start --vm-driver=none
 * Enabled addons: default-storageclass, storage-provisioner
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
+
+
+<div style="background-color: #f0f0f0; padding: 10px; border-radius: 5px;">
+  <pre><code>
+  # Commande bash
+  echo "Hello, World!"
+  </code></pre>
+</div>
+

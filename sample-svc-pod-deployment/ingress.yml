@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: node-web-app # backend-ingress
+  #namespace: default  # ingress-nginx
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: nodejs
+      http:
+        paths:
+          - path: /
+            pathType: Prefix 
+            backend:
+              node-web-app:
