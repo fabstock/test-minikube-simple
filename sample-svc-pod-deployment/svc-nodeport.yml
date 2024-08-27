@@ -12,5 +12,8 @@ spec:
     port: 80              # Le port sur lequel le service écoute
     targetPort: 3000      # Le port sur lequel votre conteneur écoute
     nodePort: 30946       # (Optionnel) Spécifiez le NodePort si nécessaire
-  type: NodePort          # Ou ClusterIP si vous utilisez Ingress
+  #type: NodePort          # Ou ClusterIP si vous utilisez Ingress
+  externalIPs:
+    - 192.168.49.2
+
 

@@ -4,6 +4,8 @@ man on work
 
 ### in test no good for the moment
 
+
+### create a certificate autosigned 
 ```bash
 
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -sha256 -days 3650 -nodes  -subj "/CN=nodejs" 
@@ -13,14 +15,116 @@ kubectl -n kube-system create secret tls mkcert --key key.pem --cert cert.pem
 
 ```
 
-- Some Notes testing 
+### Some Notes testing 
 
-  minkube start 
-  minkube ip
-  minikube tunnel 
-  minikube mount /data/web-storage:/data/webstorage
+  - minikube start  
+  - minikube ip
+  - minikube tunnel 
+
+  - simple test configmap  kubectl create configmap web-index --from-file=index.htm
+  - 
+  - minikube mount /data/web-storage:/data/webstorage  
+    (not efficient speed  only testing) p9 .... 
+
+  
+
+  - kubectl  apply -f deploy-node5.yml
+
+```shell 
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl  apply -f deploy-node5.yml
+deployment.apps/node-web created
+
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get nodes
+NAME       STATUS   ROLES           AGE    VERSION
+minikube   Ready    control-plane   161m   v1.30.0
+
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get deployments.apps
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+node-web   2/2     2            2           3m53s
+
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get pod
+NAME                        READY   STATUS    RESTARTS   AGE
+node-web-6d78586d44-56f8b   1/1     Running   0          4m
+node-web-6d78586d44-n94g9   1/1     Running   0          4m1s
+
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get pod -A
+NAMESPACE     NAME                               READY   STATUS    RESTARTS       AGE
+default       node-web-6d78586d44-56f8b          1/1     Running   0              4m1s
+default       node-web-6d78586d44-n94g9          1/1     Running   0              4m2s
+kube-system   coredns-7db6d8ff4d-278zd           1/1     Running   0              161m
+kube-system   etcd-minikube                      1/1     Running   0              161m
+kube-system   kube-apiserver-minikube            1/1     Running   0              161m
+kube-system   kube-controller-manager-minikube   1/1     Running   0              161m
+kube-system   kube-proxy-ff9n5                   1/1     Running   0              161m
+kube-system   kube-scheduler-minikube            1/1     Running   0              161m
+kube-system   storage-provisioner                1/1     Running   3 (100m ago)   161m
+
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get deployments.apps -A
+NAMESPACE     NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+default       node-web   2/2     2            2           4m6s
+kube-system   coredns    1/1     1            1           161m
+```
+
+### NodePort
+
+  -  kubectl apply -f  svc-nodeport.yml
 
 
+```shell
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get svc -A
+NAMESPACE     NAME               TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)                  AGE
+default       kubernetes         ClusterIP   10.96.0.1     <none>        443/TCP                  164m
+default       node-web-service   NodePort    10.96.26.25   <none>        80:30946/TCP             30s
+kube-system   kube-dns           ClusterIP   10.96.0.10    <none>        53/UDP,53/TCP,9153/TCP   164m
+```
+
+  -  kubectl delete  -f  svc-nodeport.yml
+
+### LoadBalancer
+
+  - kubectl apply -f  svc-loadbalancer.yml
+
+```shell 
+fab@debian12:~/fab-yaml/test-minikube-simple/sample-svc-pod-deployment$ kubectl get svc -A
+NAMESPACE     NAME               TYPE           CLUSTER-IP       EXTERNAL-IP      PORT(S)                  AGE
+default       kubernetes         ClusterIP      10.96.0.1        <none>           443/TCP                  166m
+default       node-web-service   LoadBalancer   10.100.232.162   10.100.232.162   80:30677/TCP             5s
+kube-system   kube-dns           ClusterIP      10.96.0.10       <none>           53/UDP,53/TCP,9153/TCP   166m
+```
+ 
+  - kubectl delete  -f svc-loadbalancer.yml
+
+
+### ClusterIp
+
+
+  - 
+  - 
+  -
+
+
+### Ingress
+  - kubectl create -f  ingress-minimal.yml
+    plusieurs façons de faire NodePort ClusterIP LoadBalancer  et autres External 
+
+   ```shell
+   #type: NodePort          # Ou ClusterIP si vous utilisez Ingress
+   externalIPs:
+    - 192.168.49.2
+   ``` 
+   
+    modifs de nodeport en externalIP 
+    mais  ne corresponds pas a ce que je cherche 
+
+   
+
+
+
+  - kubectl delete deployments.apps node-web
+  - kubectl delete services node-web-service
+
+
+    
 ```shell
 
 * Mounting host path /data/web-storage into VM as /data/webstorage ...
@@ -40,8 +144,8 @@ kubectl -n kube-system create secret tls mkcert --key key.pem --cert cert.pem
 ```
 
 
-###  testing ... 
-###  minikube start  --vm-driver=none 
+###  testing vm-driver ... 
+####  minikube start  --vm-driver=none 
 
  - for pv and pvc  hostpath 
  - no ip no tunnel  but pvc hostpath in host work 
