@@ -208,3 +208,10 @@ fab@debian12:~/fab-yaml/simple-5$ minikube start --vm-driver=none
   </code></pre>
 </div>
 
+<div style="background-image: url('https://via.placeholder.com/1x1/282a36/282a36.png'); padding: 10px; border-radius: 5px; background-size: cover; color: #f8f8f2; font-family: monospace;">
+  <pre><code>
+# Commande bash
+echo "Hello, World!"
+  </code></pre>
+</div>
+
