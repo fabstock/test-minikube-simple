@@ -144,7 +144,7 @@ kube-system   kube-dns           ClusterIP      10.96.0.10       <none>         
 ```
 
 
-###  testing vm-driver ... 
+###  Other: testing vm-driver ... 
 ####  minikube start  --vm-driver=none 
 
  - for pv and pvc  hostpath 
