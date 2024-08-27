@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-web-service
+  labels:
+    app: node-web-app
+spec:
+  selector:
+    app: node-web-app
+  ports:
+  - protocol: TCP
+    port: 80              # Le port sur lequel le service écoute
+    targetPort: 3000      # Le port sur lequel votre conteneur écoute
+  type: LoadBalancer          # Ou ClusterIP si vous utilisez Ingress
+

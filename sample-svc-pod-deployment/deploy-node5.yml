@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-web
+  labels:
+    app: node-web-app
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: node-web-app
+  template:
+    metadata:
+      labels:
+        app: node-web-app
+    spec:
+      containers:
+        - name: node-web-container
+          image: fabstock2/my-xterm-app-docker-rootless:latest
+          ports:
+            - containerPort: 3000
+          volumeMounts:
+            - name: public-html
+              mountPath: /app/public/public   # Monte le volume ici
+      volumes:
+        - name: public-html
+          persistentVolumeClaim:
+            #claimName: web-pvc         # Nom du PVC créé
+            claimName: my-pv-claim         # Nom du PVC créé
+
