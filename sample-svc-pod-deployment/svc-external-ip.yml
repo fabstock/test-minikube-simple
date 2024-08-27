@@ -4,18 +4,15 @@ metadata:
   name: node-web-service
   labels:
     app: node-web-app
-    run: node-web-app
 spec:
   selector:
     app: node-web-app
-    run: node-web-app
   ports:
   - protocol: TCP
     port: 80              # Le port sur lequel le service écoute
     targetPort: 3000      # Le port sur lequel votre conteneur écoute
     #nodePort: 30946       # (Optionnel) Spécifiez le NodePort si nécessaire
-  type: NodePort          # Ou ClusterIP si vous utilisez Ingress
-  #externalIPs:
-  #  - 192.168.49.2
-
+  #type: NodePort          # Ou ClusterIP si vous utilisez Ingress
+  externalIPs:
+    - 192.168.49.2
 

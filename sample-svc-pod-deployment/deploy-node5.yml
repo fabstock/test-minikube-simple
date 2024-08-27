@@ -21,7 +21,7 @@ spec:
             - containerPort: 3000
           volumeMounts:
             - name: public-html
-              mountPath: /app/public/public   # Monte le volume ici
+              mountPath: /app/public/   # Monte le volume ici
       volumes:
         - name: public-html
           persistentVolumeClaim:
